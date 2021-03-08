@@ -1,0 +1,131 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using Respawn;
+using SecretSanta.Infrastructure.Persistence;
+using SecretSanta.WebAPI;
+
+namespace Application.IntegrationTests
+{
+    /// <summary>
+    ///     A fixture or setting up a production-like environment for integration tests.
+    /// </summary>
+    internal class IntegrationTestsFixture : IDisposable
+    {
+        private static IConfigurationRoot _configuration;
+        private static IServiceScopeFactory _scopeFactory;
+        private static Checkpoint _checkpoint;
+
+        /// <summary>
+        ///     Run once at the beginning of all integration tests to configure services.
+        /// </summary>
+        public IntegrationTestsFixture()
+        {
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .AddEnvironmentVariables()
+                .Build();
+
+            var services = new ServiceCollection();
+
+            services.AddSingleton(Mock.Of<IWebHostEnvironment>(w =>
+                w.EnvironmentName == "Development" &&
+                w.ApplicationName == "SecretSanta.WebAPI"));
+            services.AddLogging();
+
+            var startup = new Startup(_configuration);
+            startup.ConfigureServices(services);
+
+            _scopeFactory = services.BuildServiceProvider().GetService<IServiceScopeFactory>();
+
+            _checkpoint = new Checkpoint
+            {
+                TablesToIgnore = new[] {"__EFMigrationsHistory"}
+            };
+
+            EnsureDatabase();
+        }
+
+        public void Dispose()
+        {
+            DropDatabase();
+        }
+
+        /// <summary>
+        ///     Creates a database if it doesn't already exist and run migrations.
+        /// </summary>
+        private static void EnsureDatabase()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Database.Migrate();
+        }
+
+        /// <summary>
+        ///     Sends a <see cref="MediatR" /> <see cref="IRequest" /> asynchronously.
+        /// </summary>
+        /// <param name="request">The command to send.</param>
+        /// <typeparam name="TResponse">The response type expected from a successful command invocation.</typeparam>
+        /// <returns></returns>
+        public static async Task<TResponse> SendAsync<TResponse>(IRequest<TResponse> request)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var mediator = scope.ServiceProvider.GetService<ISender>();
+            return await mediator.Send(request);
+        }
+
+        /// <summary>
+        ///     Asynchronously lookup and return an entity by its primary key(s).
+        /// </summary>
+        /// <param name="keyValues">The primary key(s) to use when finding the entity.</param>
+        /// <typeparam name="TEntity">The entity type to lookup.</typeparam>
+        /// <returns></returns>
+        public static async Task<TEntity> FindAsync<TEntity>(params object[] keyValues)
+            where TEntity : class
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            return await context.FindAsync<TEntity>(keyValues);
+        }
+
+        /// <summary>
+        ///     Create a new entity asynchronously.
+        /// </summary>
+        /// <param name="entity">The entity to create.</param>
+        /// <typeparam name="TEntity">The type of the entity being created.</typeparam>
+        /// <returns></returns>
+        public static async Task AddAsync<TEntity>(TEntity entity)
+            where TEntity : class
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Add(entity);
+            await context.SaveChangesAsync();
+        }
+
+        /// <summary>
+        ///     Delete the configured database.
+        /// </summary>
+        private static void DropDatabase()
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            context.Database.EnsureDeleted();
+        }
+
+        /// <summary>
+        ///     Reset the configured database to <see cref="_checkpoint" />.
+        /// </summary>
+        public static async Task ResetState()
+        {
+            await _checkpoint.Reset(_configuration.GetConnectionString("DefaultConnection"));
+        }
+    }
+}

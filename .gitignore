@@ -233,4 +233,6 @@ _Pvt_Extensions
 # FAKE - F# Make
 .fake/
 /NDependOut
-/CleanArchitecture.ndproj
+/SecretSanta.ndproj
+
+.DS_Store

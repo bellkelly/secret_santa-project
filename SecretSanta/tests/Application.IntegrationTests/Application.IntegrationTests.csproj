@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.json"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1"/>
+    <PackageReference Include="Moq" Version="4.16.1"/>
+    <PackageReference Include="Respawn" Version="4.0.0"/>
+    <PackageReference Include="xunit" Version="2.4.1"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\SecretSanta.WebAPI\SecretSanta.WebAPI.csproj"/>
+  </ItemGroup>
+
+</Project>
