@@ -23,12 +23,10 @@ namespace SecretSanta.Infrastructure.Identity
         }
 
         /// <inheritdoc />
-        public async Task<Member> GetMemberAsync(string userId)
+        public async Task<Member> GetMemberAsync(string userName)
         {
-            return await _userManager.Users
-                .Where(u => u.Id == userId)
-                .ProjectTo<Member>(_mapper.ConfigurationProvider)
-                .FirstAsync();
+            return await _userManager.Users.Where(u => u.UserName == userName)
+                .ProjectTo<Member>(_mapper.ConfigurationProvider).FirstOrDefaultAsync();
         }
 
         /// <inheritdoc />
@@ -36,6 +34,7 @@ namespace SecretSanta.Infrastructure.Identity
         {
             var user = new ApplicationUser {UserName = userName, Email = userName};
             var result = await _userManager.CreateAsync(user, password);
+
             return (result.ToApplicationResult(), user.Id);
         }
 
