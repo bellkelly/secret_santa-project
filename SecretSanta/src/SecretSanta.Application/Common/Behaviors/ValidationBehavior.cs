@@ -9,7 +9,7 @@ using ValidationException = SecretSanta.Application.Common.Exceptions.Validation
 namespace SecretSanta.Application.Common.Behaviors
 {
     /// <summary>
-    ///     Run validation logic before handling a <see cref="MediatR" /> <see cref="IRequest" />.
+    /// Run validation logic before handling a <see cref="MediatR" /> <see cref="IRequest" />.
     /// </summary>
     /// <typeparam name="TRequest">The type of the <see cref="MediatR" /> <see cref="IRequest" />.</typeparam>
     /// <typeparam name="TResponse">The expected type of the response on success.</typeparam>
@@ -18,13 +18,10 @@ namespace SecretSanta.Application.Common.Behaviors
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
-        public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
-        {
-            _validators = validators;
-        }
+        public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators) => _validators = validators;
 
         /// <summary>
-        ///     Run all validators and raise a <see cref="Exceptions.ValidationException" /> if any validations fail.
+        /// Run all validators and raise a <see cref="Exceptions.ValidationException" /> if any validations fail.
         /// </summary>
         /// <param name="request">The request to handle.</param>
         /// <param name="cancellationToken">A cancellation token.</param>

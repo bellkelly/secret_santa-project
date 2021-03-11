@@ -8,7 +8,7 @@ using SecretSanta.Domain.Entities;
 namespace SecretSanta.Application.Members.Validators
 {
     /// <summary>
-    ///     Validate the creation of a new <see cref="Member" />
+    /// Validate the creation of a new <see cref="Member" />
     /// </summary>
     public class CreateMemberValidator : AbstractValidator<CreateMemberCommand>
     {
@@ -24,9 +24,7 @@ namespace SecretSanta.Application.Members.Validators
             RuleFor(command => command.Password).NotEmpty().WithMessage("Password is required.");
         }
 
-        private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken)
-        {
-            return !await _memberService.MemberExists(userName, cancellationToken);
-        }
+        private async Task<bool> BeUniqueUserName(string userName, CancellationToken cancellationToken) =>
+            !await _memberService.MemberExists(userName, cancellationToken);
     }
 }

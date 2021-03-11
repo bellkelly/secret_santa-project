@@ -1,5 +1,4 @@
 using System.Reflection;
-using AutoMapper;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +7,7 @@ using SecretSanta.Application.Common.Behaviors;
 namespace SecretSanta.Application
 {
     /// <summary>
-    ///     Inject service configuration for the Application layer.
+    /// Inject service configuration for the Application layer.
     /// </summary>
     public static class DependencyInjection
     {
