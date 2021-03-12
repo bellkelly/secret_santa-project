@@ -1,0 +1,40 @@
+name: build
+
+on: [ push ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      DOTNET_NOLOGO: true
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+      - name: Restore tools
+        run: dotnet tool restore
+        working-directory: SecretSanta
+      - name: Lint
+        run: dotnet format --check
+        working-directory: SecretSanta
+
+  build:
+    runs-on: ubuntu-latest
+    env:
+      PG_PW: ${{ secrets.PG_PW }}
+      K_PW: ${{ secrets.K_PW }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker compose
+        run: docker-compose -f SecretSanta/docker-compose.yml up -d
+
+  test:
+    runs-on: ubuntu-latest
+    env:
+      PG_PW: ${{ secrets.PG_PW }}
+      K_PW: ${{ secrets.K_PW }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker compose
+        run: docker-compose -f SecretSanta/docker-compose.tests.yml up -d

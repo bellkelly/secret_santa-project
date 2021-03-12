@@ -7,9 +7,9 @@ services:
       context: .
       dockerfile: src/SecretSanta.WebAPI/Dockerfile
     environment:
-      - "ConnectionStrings__DefaultConnection=Server=db;Database=SecretSantaDb;User Id=secretsanta;Password=changeme;Port=5432"
+      - "ConnectionStrings__DefaultConnection=Server=db;Database=SecretSantaDb;User Id=secretsanta;Password=${PG_PW};Port=5432"
       - "IdentityServer__Key__Type=Development"
-      - "ASPNETCORE_Kestrel__Certificates__Default__Password=changeme"
+      - "ASPNETCORE_Kestrel__Certificates__Default__Password=${K_PW}"
       - "ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx"
     volumes:
       - ~/.aspnet/https:/https:ro
@@ -25,6 +25,6 @@ services:
     ports:
     - 5432
     environment:
-      POSTGRES_PASSWORD: "changeme"
+      POSTGRES_PASSWORD: ${PG_PW}
       POSTGRES_USER: "secretsanta"
       POSTGRES_DB: "SecretSantaDb"

@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: tests/Application.IntegrationTests/Dockerfile
     environment:
-      - "ConnectionStrings__DefaultConnection=Server=testdb;Database=SecretSantaTestDb;User Id=secretsanta;Password=changeme;Port=5432"
+      - "ConnectionStrings__DefaultConnection=Server=testdb;Database=SecretSantaTestDb;User Id=secretsanta;Password=${PG_PW};Port=5432"
     depends_on:
       - testdb
 
@@ -17,6 +17,6 @@ services:
     ports:
       - 5432
     environment:
-      POSTGRES_PASSWORD: "changeme"
+      POSTGRES_PASSWORD: ${PG_PW}
       POSTGRES_USER: "secretsanta"
       POSTGRES_DB: "SecretSantaTestDb"
