@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -62,7 +61,7 @@ namespace Application.IntegrationTests
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-            context.Database.Migrate();
+            context.Database.EnsureCreated();
         }
 
         /// <summary>

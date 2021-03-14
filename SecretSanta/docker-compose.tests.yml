@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+
+  integration-tests:
+    image: integration-tests
+    build:
+      context: .
+      dockerfile: tests/Application.IntegrationTests/Dockerfile
+    environment:
+      - "ConnectionStrings__DefaultConnection=Server=testdb;Database=SecretSantaTestDb;User Id=secretsanta;Password=changeme;Port=5432"
+    depends_on:
+      - testdb
+
+  testdb:
+    image: postgres:12-alpine
+    ports:
+      - 5432
+    environment:
+      POSTGRES_PASSWORD: "changeme"
+      POSTGRES_USER: "secretsanta"
+      POSTGRES_DB: "SecretSantaTestDb"

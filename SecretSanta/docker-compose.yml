@@ -28,4 +28,3 @@ services:
       POSTGRES_PASSWORD: "changeme"
       POSTGRES_USER: "secretsanta"
       POSTGRES_DB: "SecretSantaDb"
-

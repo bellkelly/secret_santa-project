@@ -1,4 +1,4 @@
-using System;
+using System.Threading.Tasks;
 using Xunit;
 using static Application.IntegrationTests.IntegrationTestsFixture;
 
@@ -9,8 +9,10 @@ namespace Application.IntegrationTests
     /// Resets the state of the database at the end of each test.
     /// </summary>
     [Collection("Integration collection")]
-    public class IntegrationTestBase : IDisposable
+    public class IntegrationTestBase : IAsyncLifetime
     {
-        public async void Dispose() => await ResetState();
+        public async Task InitializeAsync() => await ResetState();
+
+        public Task DisposeAsync() => Task.CompletedTask;
     }
 }

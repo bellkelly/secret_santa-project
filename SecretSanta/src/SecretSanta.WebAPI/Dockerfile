@@ -14,7 +14,7 @@ COPY ["src/SecretSanta.Infrastructure/SecretSanta.Infrastructure.csproj", "src/S
 RUN dotnet restore "src/SecretSanta.WebAPI/SecretSanta.WebAPI.csproj"
 
 # Copy over all source code and create release build
-COPY . .
+COPY src src
 WORKDIR /src/src/SecretSanta.WebAPI
 RUN dotnet build "SecretSanta.WebAPI.csproj" --nologo -c Release -o /app/build
 
