@@ -25,12 +25,20 @@ namespace SecretSanta.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
-            services.AddDefaultIdentity<ApplicationUser>().AddRoles<IdentityRole>()
+            services.AddDefaultIdentity<ApplicationUser>(options => { options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.User.RequireUniqueEmail = true;
+                    options.User.AllowedUserNameCharacters = null;
+                    options.SignIn.RequireConfirmedEmail = true;
+                }).AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddIdentityServer().AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
 
-            services.AddTransient<IMemberService, IdentityService>();
+            services.AddTransient<IUserDbContext, UserDbContext>();
 
             services.AddAuthentication().AddIdentityServerJwt();
 

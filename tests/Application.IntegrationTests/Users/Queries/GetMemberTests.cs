@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using SecretSanta.Application.Common.Exceptions;
-using SecretSanta.Application.Members.DTOs;
-using SecretSanta.Application.Members.Queries.GetMember;
-using SecretSanta.Infrastructure.Identity;
+using SecretSanta.Application.Users.DTOs;
+using SecretSanta.Application.Users.Queries;
+using SecretSanta.Domain.Entities;
 using Xunit;
 
-namespace Application.IntegrationTests.Members.Queries
+namespace Application.IntegrationTests.Users.Queries
 {
     using static IntegrationTestsFixture;
 
@@ -16,7 +16,7 @@ namespace Application.IntegrationTests.Members.Queries
         [Fact]
         public void ShouldRequireUserName()
         {
-            var query = new GetMemberQuery();
+            var query = new GetUserQuery();
             var expectedErrors = new Dictionary<string, string[]> { { "UserName", new[] { "UserName is required." } } };
 
             FluentActions.Invoking(() => SendAsync(query)).Should().ThrowAsync<ValidationException>().Result
@@ -28,12 +28,12 @@ namespace Application.IntegrationTests.Members.Queries
         public async Task ShouldGetUser()
         {
             const string userName = "Foo";
-            await AddAsync(new ApplicationUser { UserName = userName });
-            var query = new GetMemberQuery { UserName = userName };
+            await CreateUserAsync(new User { UserName = userName, Email = "foo@localhost"});
+            var query = new GetUserQuery { UserName = userName };
 
             var member = await SendAsync(query);
 
-            member.Should().BeOfType<MemberDto>();
+            member.Should().BeOfType<UserDto>();
             member.UserName.Should().Be(userName);
         }
 
@@ -41,10 +41,10 @@ namespace Application.IntegrationTests.Members.Queries
         public void ShouldRaiseNotFoundIfUserDoesNotExist()
         {
             const string userName = "Foo";
-            var query = new GetMemberQuery { UserName = userName };
+            var query = new GetUserQuery { UserName = userName };
 
             FluentActions.Invoking(() => SendAsync(query)).Should().ThrowAsync<NotFoundException>().Result
-                .WithMessage($"Entity \"Member\" ({userName}) was not found.");
+                .WithMessage($"Entity \"User\" ({userName}) was not found.");
         }
     }
 }

@@ -31,7 +31,7 @@ namespace SecretSanta.WebAPI
                 var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                 await ApplicationDbContextSeed.SeedDefaultUserAsync(userManager);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Console.WriteLine("An error occurred while migrating or seeding the database.");
                 throw;

@@ -1,14 +1,14 @@
 using AutoMapper;
+using SecretSanta.Application.Users.DTOs;
 using SecretSanta.Domain.Entities;
-using SecretSanta.Infrastructure.Identity;
 
-namespace SecretSanta.Infrastructure.Mapping
+namespace SecretSanta.Application
 {
     public class MappingProfile : Profile
     {
         public MappingProfile()
         {
-            CreateMap<ApplicationUser, Member>();
+            CreateMap<User, UserDto>();
         }
     }
 }

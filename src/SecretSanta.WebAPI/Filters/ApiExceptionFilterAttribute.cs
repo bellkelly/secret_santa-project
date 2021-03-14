@@ -10,7 +10,7 @@ namespace SecretSanta.WebAPI.Filters
     /// <summary>
     /// Custom handler to intercept exceptions and set appropriate result for API response.
     /// </summary>
-    public abstract class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+    public sealed class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Custom exception handlers.

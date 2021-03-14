@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Npgsql;
 using Respawn;
+using SecretSanta.Application.Common.Interfaces;
+using SecretSanta.Domain.Entities;
 using SecretSanta.Infrastructure.Persistence;
 using SecretSanta.WebAPI;
 
@@ -91,6 +93,33 @@ namespace Application.IntegrationTests
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
 
             return await context.FindAsync<TEntity>(keyValues);
+        }
+
+        /// <summary>
+        /// Asynchronously lookup and return a <see cref="User"/> with the given username.
+        /// </summary>
+        /// <param name="userName">The username of a <see cref="User"/>.</param>
+        /// <returns></returns>
+        public static async Task<User> FindUserAsync(string userName)
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<IUserDbContext>();
+
+            return await context.FindByUsernameAsync(userName);
+        }
+
+        /// <summary>
+        /// Asynchronously create a <see cref="User"/>.
+        /// </summary>
+        /// <param name="user">The <see cref="User"/> to create.</param>
+        /// <param name="password">A password for the user, defaults to "testPassword".</param>
+        /// <returns></returns>
+        public static async Task CreateUserAsync(User user, string password="testPassword")
+        {
+            using var scope = _scopeFactory.CreateScope();
+            var context = scope.ServiceProvider.GetService<IUserDbContext>();
+
+            await context.CreateAsync(user, password);
         }
 
         /// <summary>
