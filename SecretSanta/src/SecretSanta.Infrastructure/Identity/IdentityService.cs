@@ -32,7 +32,7 @@ namespace SecretSanta.Infrastructure.Identity
         /// <inheritdoc />
         public async Task<(Result Result, string UserId)> CreateMemberAsync(string userName, string password)
         {
-            var user = new ApplicationUser {UserName = userName, Email = userName};
+            var user = new ApplicationUser { UserName = userName, Email = userName };
             var result = await _userManager.CreateAsync(user, password);
 
             return (result.ToApplicationResult(), user.Id);

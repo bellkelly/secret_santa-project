@@ -9,7 +9,7 @@ namespace SecretSanta.Application
     /// <summary>
     /// Inject service configuration for the Application layer.
     /// </summary>
-    public static class DependencyInjection
+    public static class ApplicationDependencyInjection
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {

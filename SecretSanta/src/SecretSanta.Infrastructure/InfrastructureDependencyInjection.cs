@@ -13,7 +13,7 @@ namespace SecretSanta.Infrastructure
     /// <summary>
     /// Inject service configuration for the Infrastructure layer.
     /// </summary>
-    public static class DependencyInjection
+    public static class InfrastructureDependencyInjection
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services,
             IConfiguration configuration)

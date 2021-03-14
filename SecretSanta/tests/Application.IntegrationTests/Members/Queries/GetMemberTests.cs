@@ -17,7 +17,7 @@ namespace Application.IntegrationTests.Members.Queries
         public void ShouldRequireUserName()
         {
             var query = new GetMemberQuery();
-            var expectedErrors = new Dictionary<string, string[]> {{"UserName", new[] {"UserName is required."}}};
+            var expectedErrors = new Dictionary<string, string[]> { { "UserName", new[] { "UserName is required." } } };
 
             FluentActions.Invoking(() => SendAsync(query)).Should().ThrowAsync<ValidationException>().Result
                 .WithMessage("One or more validation failures have occurred.").And.Errors.Should()
@@ -28,8 +28,8 @@ namespace Application.IntegrationTests.Members.Queries
         public async Task ShouldGetUser()
         {
             const string userName = "Foo";
-            await AddAsync(new ApplicationUser {UserName = userName});
-            var query = new GetMemberQuery {UserName = userName};
+            await AddAsync(new ApplicationUser { UserName = userName });
+            var query = new GetMemberQuery { UserName = userName };
 
             var member = await SendAsync(query);
 
@@ -41,7 +41,7 @@ namespace Application.IntegrationTests.Members.Queries
         public void ShouldRaiseNotFoundIfUserDoesNotExist()
         {
             const string userName = "Foo";
-            var query = new GetMemberQuery {UserName = userName};
+            var query = new GetMemberQuery { UserName = userName };
 
             FluentActions.Invoking(() => SendAsync(query)).Should().ThrowAsync<NotFoundException>().Result
                 .WithMessage($"Entity \"Member\" ({userName}) was not found.");

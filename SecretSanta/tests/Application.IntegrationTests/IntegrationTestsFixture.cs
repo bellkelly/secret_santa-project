@@ -43,7 +43,8 @@ namespace Application.IntegrationTests
 
             _checkpoint = new Checkpoint
             {
-                TablesToIgnore = new[] {"__EFMigrationsHistory"}, DbAdapter = DbAdapter.Postgres
+                TablesToIgnore = new[] { "__EFMigrationsHistory" },
+                DbAdapter = DbAdapter.Postgres
             };
 
             EnsureDatabase();

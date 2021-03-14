@@ -30,8 +30,8 @@ namespace Application.IntegrationTests.Members.Commands
         public async Task ShouldRequireUniqueUser()
         {
             const string duplicateUserName = "Foo";
-            await AddAsync(new ApplicationUser {UserName = duplicateUserName});
-            var command = new CreateMemberCommand {UserName = duplicateUserName, Password = "Test123!"};
+            await AddAsync(new ApplicationUser { UserName = duplicateUserName });
+            var command = new CreateMemberCommand { UserName = duplicateUserName, Password = "Test123!" };
             var expectedErrors = new Dictionary<string, string[]>
             {
                 {"UserName", new[] {"The specified UserName already exists."}}
@@ -45,7 +45,7 @@ namespace Application.IntegrationTests.Members.Commands
         [Fact]
         public async Task ShouldCreateUser()
         {
-            var command = new CreateMemberCommand {UserName = "TestUser", Password = "Test123!"};
+            var command = new CreateMemberCommand { UserName = "TestUser", Password = "Test123!" };
 
             var userId = await SendAsync(command);
 

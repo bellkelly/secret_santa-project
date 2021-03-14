@@ -9,6 +9,6 @@ namespace SecretSanta.WebAPI.Controllers
     {
         [HttpGet("{userName}")]
         public async Task<ActionResult<MemberDto>> Get(string userName) =>
-            await Mediator.Send(new GetMemberQuery {UserName = userName});
+            await Mediator.Send(new GetMemberQuery { UserName = userName });
     }
 }

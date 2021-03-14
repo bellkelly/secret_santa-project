@@ -10,19 +10,21 @@ namespace SecretSanta.WebAPI.Filters
     /// <summary>
     /// Custom handler to intercept exceptions and set appropriate result for API response.
     /// </summary>
-    public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+    public abstract class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Custom exception handlers.
         /// </summary>
         private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
 
-        public ApiExceptionFilterAttribute() =>
+        public ApiExceptionFilterAttribute()
+        {
             _exceptionHandlers = new Dictionary<Type, Action<ExceptionContext>>
             {
                 {typeof(ValidationException), HandleValidationException},
                 {typeof(NotFoundException), HandleNotFoundException}
             };
+        }
 
         public override void OnException(ExceptionContext context)
         {
@@ -94,7 +96,7 @@ namespace SecretSanta.WebAPI.Filters
                 Title = "An error occured while processing the request.",
                 Type = "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             };
-            context.Result = new ObjectResult(details) {StatusCode = StatusCodes.Status500InternalServerError};
+            context.Result = new ObjectResult(details) { StatusCode = StatusCodes.Status500InternalServerError };
             context.ExceptionHandled = true;
         }
 
