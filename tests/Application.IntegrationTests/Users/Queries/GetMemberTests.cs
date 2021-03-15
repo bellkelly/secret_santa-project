@@ -28,7 +28,7 @@ namespace Application.IntegrationTests.Users.Queries
         public async Task ShouldGetUser()
         {
             const string userName = "Foo";
-            await CreateUserAsync(new User { UserName = userName, Email = "foo@localhost"});
+            await CreateUserAsync(new User { UserName = userName, Email = "foo@localhost" });
             var query = new GetUserQuery { UserName = userName };
 
             var member = await SendAsync(query);

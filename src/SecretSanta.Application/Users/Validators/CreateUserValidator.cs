@@ -24,18 +24,21 @@ namespace SecretSanta.Application.Users.Validators
 
             RuleFor(command => command.Password).NotEmpty().WithMessage("Password is required.");
 
-            When(command => !string.IsNullOrEmpty(command.UserName), () => {
+            When(command => !string.IsNullOrEmpty(command.UserName), () =>
+            {
                 RuleFor(command => command.UserName)
                     .MustAsync(BeUniqueUserName).WithMessage("The specified UserName already exists.");
             });
 
-            When(command => !string.IsNullOrEmpty(command.Email), () => {
+            When(command => !string.IsNullOrEmpty(command.Email), () =>
+            {
                 RuleFor(command => command.Email)
                     .EmailAddress().WithMessage("A valid email address is required.")
                     .MustAsync(BeUniqueEmail).WithMessage("The specified Email already exists.");
             });
 
-            When(command => !string.IsNullOrEmpty(command.Password), () => {
+            When(command => !string.IsNullOrEmpty(command.Password), () =>
+            {
                 RuleFor(command => command.Password)
                     .Length(8, 64).WithMessage("Password must be between 8 and 64 characters.");
             });

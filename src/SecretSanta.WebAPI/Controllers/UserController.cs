@@ -16,7 +16,7 @@ namespace SecretSanta.WebAPI.Controllers
         public async Task<ActionResult<UserDto>> Create(CreateUserCommand command)
         {
             var result = await Mediator.Send(command);
-            return CreatedAtRoute("GetUser", new {userName = result}, null);
+            return CreatedAtRoute("GetUser", new { userName = result }, null);
         }
     }
 }

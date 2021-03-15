@@ -32,8 +32,8 @@ namespace Application.IntegrationTests.Users.Commands
         {
             const string duplicateUserName = "Foo";
             const string duplicateEmail = "foo@localhost";
-            await CreateUserAsync(new User { UserName = duplicateUserName, Email = duplicateEmail});
-            var command = new CreateUserCommand { UserName = duplicateUserName, Password = "Test123!", Email = duplicateEmail};
+            await CreateUserAsync(new User { UserName = duplicateUserName, Email = duplicateEmail });
+            var command = new CreateUserCommand { UserName = duplicateUserName, Password = "Test123!", Email = duplicateEmail };
             var expectedErrors = new Dictionary<string, string[]>
             {
                 {"UserName", new[] {"The specified UserName already exists."}},
@@ -48,7 +48,7 @@ namespace Application.IntegrationTests.Users.Commands
         [Fact]
         public void ShouldRequireValidEmail()
         {
-            var command = new CreateUserCommand{UserName = "Foo", Email = "foo", Password = "Test123!"};
+            var command = new CreateUserCommand { UserName = "Foo", Email = "foo", Password = "Test123!" };
             var expectedErrors = new Dictionary<string, string[]>
             {
                 {"Email", new[] {"A valid email address is required."}}
@@ -65,7 +65,7 @@ namespace Application.IntegrationTests.Users.Commands
         public void ShouldRequireValidPassword(int passwordLength)
         {
             var password = new string('x', passwordLength);
-            var command = new CreateUserCommand{UserName = "Foo", Email = "foo@localhost", Password = password};
+            var command = new CreateUserCommand { UserName = "Foo", Email = "foo@localhost", Password = password };
             var expectedErrors = new Dictionary<string, string[]>
             {
                 {"Password", new[] {"Password must be between 8 and 64 characters."}}
@@ -79,7 +79,7 @@ namespace Application.IntegrationTests.Users.Commands
         [Fact]
         public async Task ShouldCreateUser()
         {
-            var command = new CreateUserCommand { UserName = "TestUser", Password = "Test123!", Email = "Test@example.com"};
+            var command = new CreateUserCommand { UserName = "TestUser", Password = "Test123!", Email = "Test@example.com" };
 
             var result = await SendAsync(command);
 

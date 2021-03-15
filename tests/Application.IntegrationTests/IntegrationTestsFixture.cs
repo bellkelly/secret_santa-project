@@ -114,7 +114,7 @@ namespace Application.IntegrationTests
         /// <param name="user">The <see cref="User"/> to create.</param>
         /// <param name="password">A password for the user, defaults to "testPassword".</param>
         /// <returns></returns>
-        public static async Task CreateUserAsync(User user, string password="testPassword")
+        public static async Task CreateUserAsync(User user, string password = "testPassword")
         {
             using var scope = _scopeFactory.CreateScope();
             var context = scope.ServiceProvider.GetService<IUserDbContext>();

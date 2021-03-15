@@ -22,7 +22,7 @@ namespace SecretSanta.Application.Users.Handlers
 
         public async Task<string> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User {UserName = request.UserName, Email = request.Email};
+            var user = new User { UserName = request.UserName, Email = request.Email };
             var (result, username) = await _userDbContext.CreateAsync(user, request.Password);
 
             if (result.Succeeded) return username;

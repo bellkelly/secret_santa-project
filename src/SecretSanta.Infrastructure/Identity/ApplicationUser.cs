@@ -9,7 +9,7 @@ namespace SecretSanta.Infrastructure.Identity
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
-        
+
         public static void Mapping(Profile profile)
         {
             profile.CreateMap<User, ApplicationUser>();

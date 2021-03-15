@@ -10,7 +10,7 @@ namespace SecretSanta.Infrastructure
         public MappingProfile()
         {
             CreateMap<ApplicationUser, User>();
-            CreateMap<User, ApplicationUser>().ForMember(x => x.Id, opt => opt.MapFrom( o => Guid.NewGuid()));
+            CreateMap<User, ApplicationUser>().ForMember(x => x.Id, opt => opt.MapFrom(o => Guid.NewGuid()));
         }
     }
 }
