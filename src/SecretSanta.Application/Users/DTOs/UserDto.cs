@@ -1,16 +1,16 @@
 using AutoMapper;
 using SecretSanta.Domain.Entities;
 
-namespace SecretSanta.Application.Members.DTOs
+namespace SecretSanta.Application.Users.DTOs
 {
-    public class MemberDto
+    public class UserDto
     {
         public string UserName { get; init; }
         public string Email { get; init; }
 
-        public void Mapping(Profile profile)
+        public static void Mapping(Profile profile)
         {
-            profile.CreateMap<Member, MemberDto>();
+            profile.CreateMap<User, UserDto>();
         }
     }
 }
