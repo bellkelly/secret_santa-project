@@ -1,0 +1,13 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "outDir": "./dist",
+    "target": "es6",
+    "sourceMap": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true
+  }
+}
